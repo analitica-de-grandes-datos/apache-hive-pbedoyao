@@ -18,7 +18,7 @@ CREATE TABLE data (
     Letra   string,
     Fecha   string,
     Valor   int
-) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 TBLPROPERTIES ("skip.header.line.count"="0");        
 
 LOAD DATA LOCAL INPATH 'data.tsv' OVERWRITE INTO TABLE data;
