@@ -49,8 +49,8 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 
 DROP TABLE IF EXISTS Resultado;
 
-CREATE TABLE Resultado AS SELECT c6, c2 AS letra FROM tbl0;
+CREATE TABLE Resultado AS SELECT c2, key, value FROM tbl0 LATERAL VIEW explode(c6) numer_list;
 INSERT OVERWRITE LOCAL DIRECTORY 'output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 
-SELECT c2, sum(c6) FROM Resultado GROUP BY c2;
+SELECT c2, sum(value) FROM Resultado GROUP BY c2;
