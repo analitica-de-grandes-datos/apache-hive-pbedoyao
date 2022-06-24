@@ -52,4 +52,4 @@ CREATE TABLE Resultado AS SELECT c2, c1 AS letra FROM tbl0;
 INSERT OVERWRITE LOCAL DIRECTORY 'output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 
-SELECT c2, collect_set(c1) FROM Resultado GROUP BY c2;
+SELECT c2, collect_set(letra) FROM Resultado GROUP BY c2;
