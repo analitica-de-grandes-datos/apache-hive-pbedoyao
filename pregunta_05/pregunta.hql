@@ -45,3 +45,9 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
     >>> Escriba su respuesta a partir de este punto <<<
 */
 
+DROP TABLE IF EXISTS Resultado;
+
+CREATE TABLE Resultado AS SELECT YEAR(c4) ANO, C2 AS letra FROM tbl0;
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+SELECT ANO, letra, COUNT(letra) FROM Resultado GROUP BY letra, ANO ORDER BY ANO ASC;
