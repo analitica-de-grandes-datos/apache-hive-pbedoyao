@@ -29,3 +29,10 @@ LOAD DATA LOCAL INPATH 'data.tsv' INTO TABLE t0;
     >>> Escriba su respuesta a partir de este punto <<<
 */
 
+DROP TABLE IF EXISTS Resultado;
+CREATE TABLE Resultado AS SELECT letra, Atributo, Valor FROM (SELECT letra, c3 FROM t0 LATERAL VIEW explode(c2) t0 AS letra ) data_1 
+LATERAL VIEW explode (c3) data; 
+ 
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+SELECT letra, Atributo, COUNT(letra) FROM Resultado GROUP BY letra, Atributo ;

@@ -46,3 +46,13 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
     >>> Escriba su respuesta a partir de este punto <<<
 */
 
+
+DROP TABLE IF EXISTS Resultados_0; 
+DROP TABLE IF EXISTS Resultados_1; 
+CREATE TABLE Resultados_0 AS SELECT c1, c2 AS Atributo FROM tbl0; 
+CREATE TABLE Resultado_1 AS SELECT c1, Atributo, Valor FROM tbl1 LATERAL VIEW explode(c4) letras; 
+ 
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+SELECT Resultado_1.* FROM Resultado_1, Resultado_0
+WHERE Resultado_0.c1 = Resultado_1.c1 and Resultado_0.Atributo = Resultado_1.Atributo;
