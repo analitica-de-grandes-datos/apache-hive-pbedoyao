@@ -48,9 +48,29 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 
 DROP TABLE IF EXISTS Resultado;
 
-CREATE TABLE Resultado AS SELECT concat_ws(':',collect_list(UPPER(c5))) AS Letras FROM tbl0;
+CREATE TABLE Resultado AS SELECT concat_ws(':',collect_list(UPPER(c5))) AS Letras FROM tbl0 LATERAL VIEW explode(c5) tbl0 AS exploded;
 INSERT OVERWRITE LOCAL DIRECTORY 'output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 
 SELECT * FROM Resultado; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
