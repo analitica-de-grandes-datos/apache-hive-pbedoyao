@@ -47,13 +47,37 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 */
 
 
-DROP TABLE IF EXISTS Resultados_0; 
-DROP TABLE IF EXISTS Resultados_1;
+DROP TABLE IF EXISTS Resultados0; 
+DROP TABLE IF EXISTS Resultados1;
 
-CREATE TABLE Resultados_0 AS SELECT c1, c2 FROM tbl0; 
-CREATE TABLE Resultados_1 AS SELECT c1, c2, Valor FROM tbl1 LATERAL VIEW explode(c4) letras; 
+CREATE TABLE Resultados0 AS SELECT c1, c2 FROM tbl0; 
+CREATE TABLE Resultados1 AS SELECT c1, c2, Valor FROM tbl1 LATERAL VIEW explode(c4) letras; 
  
 INSERT OVERWRITE LOCAL DIRECTORY 'output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
-SELECT Resultados_1.* FROM Resultados_0, Resultados_1
-WHERE Resultados_0.c1 = Resultados_1.c1 and Resultados_0.c2 = Resultados_1.c2;
+SELECT Resultados0.c1, Resultados.*, Valor FROM Resultados0, Resultados1
+WHERE Resultados0.c1 = Resultados1.c1 and Resultados0.c2 = Resultados1.c2;
+
+
+CREATE TABLE Data_090 AS
+SELECT
+    c1, c2 key
+FROM
+    tbl0;
+
+CREATE TABLE Data_091 AS
+SELECT
+    c1, key, value
+FROM
+    tbl1
+LATERAL VIEW
+    EXPLODE(c4) List;
+
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT
+    Dt1.*
+FROM
+    Data_090 Dt0, Data_091 Dt1
+WHERE
+    Dt0.c1 = Dt1.c1 AND Dt0.key = Dt1.key;
