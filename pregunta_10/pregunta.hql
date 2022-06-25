@@ -31,9 +31,8 @@ LOAD DATA LOCAL INPATH 'data.tsv' INTO TABLE t0;
 */
 
 DROP TABLE IF EXISTS Resultado;
-CREATE TABLE Resultado AS SELECT letra, Atributo, Valor FROM (SELECT letra, c3 FROM t0 LATERAL VIEW explode(c2) t0 AS letra ) data_1 
-LATERAL VIEW explode (c3) data; 
+CREATE TABLE Resultado AS SELECT t1.letras, count(*) FROM(SELECT letras FROM t0 LATERAL VIEW explode(map_keys(c3)) exploded_table AS letras)  GROUP BY t1.monto; 
  
 INSERT OVERWRITE LOCAL DIRECTORY 'output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
-SELECT letra, Atributo, COUNT(1) FROM Resultado GROUP BY letra, Atributo ;
+SELECT * FROM Resultado;
