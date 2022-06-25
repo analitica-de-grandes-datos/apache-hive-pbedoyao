@@ -48,12 +48,12 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 
 
 DROP TABLE IF EXISTS Resultados_0; 
-DROP TABLE IF EXISTS Resultados_1; 
-CREATE TABLE Resultados_0 AS SELECT c1, c2 Atributo FROM tbl0; 
-CREATE TABLE Resultados_1 AS SELECT c1, Atributo, Valor FROM tbl1 LATERAL VIEW explode(c4) letras; 
+DROP TABLE IF EXISTS Resultados_1;
+
+CREATE TABLE Resultados_0 AS SELECT c1, c2 FROM tbl0; 
+CREATE TABLE Resultados_1 AS SELECT c1, c2, Valor FROM tbl1 LATERAL VIEW explode(c4) tbl1 letras; 
  
 INSERT OVERWRITE LOCAL DIRECTORY 'output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
 SELECT Resultados_1.* FROM Resultados_0, Resultados_1
-WHERE Resultados_0.c1 = Resultados_1.c1 and Resultados_0.Atributo = Resultados_1.Atributo;
-
+WHERE Resultados_0.c1 = Resultados_1.c1 and Resultados_0.c2 = Resultados_1.c2;
