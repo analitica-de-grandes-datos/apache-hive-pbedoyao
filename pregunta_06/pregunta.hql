@@ -1,4 +1,4 @@
-/* 
+/*
 
 Pregunta
 ===========================================================================
@@ -48,7 +48,7 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 
 DROP TABLE IF EXISTS Resultado;
 
-CREATE TABLE Resultado AS SELECT UPPER(c5) AS Letra FROM tbl0;
+CREATE TABLE Resultado AS SELECT UPPER(c5) AS Letras FROM tbl0;
 INSERT OVERWRITE LOCAL DIRECTORY 'output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 
