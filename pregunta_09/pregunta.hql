@@ -51,9 +51,9 @@ DROP TABLE IF EXISTS Resultados0;
 DROP TABLE IF EXISTS Resultados1;
 
 CREATE TABLE Resultados0 AS SELECT c1, c2 FROM tbl0; 
-CREATE TABLE Resultados1 AS SELECT c1, atributo, Valor FROM tbl1 LATERAL VIEW explode(c4) letras; 
+CREATE TABLE Resultados1 AS SELECT c1, key c2, value FROM tbl1 LATERAL VIEW explode(c4) letras; 
  
 INSERT OVERWRITE LOCAL DIRECTORY 'output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
-SELECT Resultados1.* FROM Resultados0, Resultados1
-WHERE Resultados0.c1 = Resultados1.c1 and Resultados0.c2 = Resultados1.atributo;
+SELECT Resultados1.* FROM Resultados0, Resultados1 
+WHERE Resultados0.c1 = Resultados1.c1 and Resultados0.c2 = Resultados1.c2;
