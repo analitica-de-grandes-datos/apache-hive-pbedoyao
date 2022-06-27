@@ -55,5 +55,5 @@ CREATE TABLE Resultados1 AS SELECT c1, atributo, Valor FROM tbl1 LATERAL VIEW ex
  
 INSERT OVERWRITE LOCAL DIRECTORY 'output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
-SELECT Resultados1.*, Valor FROM Resultados0, Resultados1
+SELECT Resultados1.* FROM Resultados0, Resultados1
 WHERE Resultados0.c1 = Resultados1.c1 and Resultados0.c2 = Resultados1.atributo;
