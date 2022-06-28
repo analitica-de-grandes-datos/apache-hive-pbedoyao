@@ -34,8 +34,10 @@ LOAD DATA LOCAL INPATH 'data.tsv' INTO TABLE t0;
 */
 
 DROP TABLE IF EXISTS Resultado;
-CREATE TABLE Resultado AS SELECT data.key, data.value, data1.value, data.key FROM t0 LATERAL VIEW explode(c2) data
-LATERAL VIEW explode(c3) data1; /* GROUP BY data, data1;*/
+CREATE TABLE Resultado AS SELECT letra, letras, count(*) AS cantidad FROM t0
+LATERAL VIEW explode(c2) data AS letra
+LATERAL VIEW explode(c3) data1 AS letras, valor
+GROUP BY letra, letras;
  
 INSERT OVERWRITE LOCAL DIRECTORY 'output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
