@@ -1,4 +1,4 @@
-/* 
+/*
 
 Pregunta
 ===========================================================================
@@ -45,4 +45,28 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+
+DROP TABLE IF EXISTS Resultado;
+CREATE TABLE Resultado AS SELECT concat_ws(':',collect_list(UPPER(exploded))) FROM tbl0 LATERAL VIEW explode(c5) resultado AS exploded GROUP BY c1;
+
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM Resultado;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

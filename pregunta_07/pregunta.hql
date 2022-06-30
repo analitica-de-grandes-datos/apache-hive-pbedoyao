@@ -46,3 +46,11 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
     >>> Escriba su respuesta a partir de este punto <<<
 */
 
+DROP TABLE IF EXISTS Resultado;
+
+CREATE TABLE Resultado AS SELECT c2, c1 FROM tbl0;
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY ':' 
+
+SELECT c2, collect_set(c1) FROM Resultado GROUP BY c2;

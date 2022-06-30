@@ -30,3 +30,12 @@ LOAD DATA LOCAL INPATH 'data.tsv' INTO TABLE t0;
     >>> Escriba su respuesta a partir de este punto <<<
 */
 
+DROP TABLE IF EXISTS Resultado;
+CREATE TABLE Resultado AS SELECT t1.letras, count(*) FROM(SELECT letras FROM t0 LATERAL VIEW explode(map_keys(c3)) exploded_table AS letras) t1
+GROUP BY t1.letras; 
+ 
+INSERT OVERWRITE LOCAL DIRECTORY 'output' 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+SELECT * FROM Resultado;
+
+
