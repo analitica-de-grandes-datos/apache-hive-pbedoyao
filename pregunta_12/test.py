@@ -84,6 +84,8 @@ if os.path.isdir("output"):
 
 os.system("docker run -v $PWD:/workspace jdvelasq/hive:classroom")
 
+assert os.path.isdir("output") is True
+
 result = []
 with fileinput.input(files=glob.glob("output/*")) as f:
     for line in f:
